@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import Header from './components/Header'
+import Mainpage from './components/Mainpage'
 
 export default class App extends Component {
   render() {
     return (
-      <Header />)
+      <Mainpage/>)
   }
 }
