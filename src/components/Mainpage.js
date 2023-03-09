@@ -1,14 +1,46 @@
 
 import { Breadcrumb, Layout, theme } from 'antd';
-import React from 'react';
+import axios from 'axios';
+import React, { useState,useEffect } from 'react';
 import LeftMain from './LeftMain';
 const { Content, Sider } = Layout;
 
 
 const Mainpage = () => {
+  const [leftMessage,setLeftMessage] = useState([])
+  function callBackLeftMessage(obj){
+    setLeftMessage(obj)
+    return 
+  }
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+ 
+  useEffect(() => {
+   axios({
+    method:'POST',
+    url:'https://menu-upup.azurewebsites.net/api/login',
+    data:{"name":"桃橘","password":"test"}
+   }).then(response=>{
+    console.log(response)
+   })
+  })
+  
+// const data = {"name":"桃橘","password":"test"}
+// fetch('https://menu-upup.azurewebsites.net/api/login', {
+//   method: 'POST', // or 'PUT'
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   body: JSON.stringify(),
+// })
+// .then(response => response.json(data))
+// .then(data => {
+//   console.log('Success:', data);
+// })
+// .catch((error) => {
+//   console.error('Error:', error);
+// });
   return (
       <Layout>
         <Sider
@@ -18,7 +50,7 @@ const Mainpage = () => {
           }}
         >
           {/* 左边栏 */}
-          <LeftMain/>
+          <LeftMain callBackLeftMessage={callBackLeftMessage}/>
 
         </Sider>
         <Layout
@@ -32,9 +64,9 @@ const Mainpage = () => {
               margin: '16px 0',
             }}
           >
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
+            <Breadcrumb.Item>{leftMessage.length>0?leftMessage[1]:" "}</Breadcrumb.Item>
+            <Breadcrumb.Item>{leftMessage.length>0?leftMessage[0]:" "}</Breadcrumb.Item>
+          
           </Breadcrumb>
           {/* 具体情况 */}
           <Content
